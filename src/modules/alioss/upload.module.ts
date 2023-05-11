@@ -1,6 +1,6 @@
-import { Module } from '@nestjs/common';
-import { OssService } from './alioss.service';
-import { UploadsService } from './upload.service';
+import { Module } from '@nestjs/common'
+import { OssService } from './alioss.service'
+import { UploadsService } from './upload.service'
 
 @Module({
   imports: [],

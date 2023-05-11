@@ -1,6 +1,6 @@
-import { Controller, Post, Body } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { Registry } from './dto/resisty-dto';
+import { Controller, Post, Body } from '@nestjs/common'
+import { AuthService } from './auth.service'
+import { Registry } from './dto/resisty-dto'
 
 @Controller('auth')
 export class AuthController {
@@ -10,12 +10,12 @@ export class AuthController {
   // 用户注册
   @Post('registry')
   registry(@Body() registy: Registry) {
-    return this.authService.registry(registy);
+    return this.authService.registry(registy)
   }
 
   // 用户登录
   @Post('login')
   login(@Body() registry: Registry) {
-    return this.authService.login(registry);
+    return this.authService.login(registry)
   }
 }

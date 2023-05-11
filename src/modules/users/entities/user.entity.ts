@@ -4,26 +4,26 @@ import {
   JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
-} from 'typeorm';
-import { Exclude } from 'class-transformer';
-import { Role } from 'src/modules/roles/entities/role.entity';
+} from 'typeorm'
+import { Exclude } from 'class-transformer'
+import { Role } from 'src/modules/roles/entities/role.entity'
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: number
 
   @Column({ unique: true })
-  username: string;
+  username: string
 
   @Column()
   @Exclude()
-  password: string;
+  password: string
 
   @Column({ default: 'default.jpg' })
-  avatar: string;
+  avatar: string
 
   @ManyToMany(() => Role, (role) => role.users)
   @JoinTable()
-  role: Role[];
+  role: Role[]
 }

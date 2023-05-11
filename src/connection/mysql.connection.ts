@@ -1,7 +1,7 @@
-import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { DB_Config } from 'src/config/db.config';
-import { Role } from 'src/modules/roles/entities/role.entity';
-import { User } from 'src/modules/users/entities/user.entity';
+import { TypeOrmModuleOptions } from '@nestjs/typeorm'
+import { DB_Config } from 'src/config/db.config'
+import { Role } from 'src/modules/roles/entities/role.entity'
+import { User } from 'src/modules/users/entities/user.entity'
 
 export const ConnectionParams: (
   ...args: any[]
@@ -15,4 +15,4 @@ export const ConnectionParams: (
   entities: [User, Role],
   synchronize: true,
   logging: ['error'],
-});
+})

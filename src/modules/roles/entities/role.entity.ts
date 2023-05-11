@@ -1,23 +1,23 @@
-import { User } from 'src/modules/users/entities/user.entity';
+import { User } from 'src/modules/users/entities/user.entity'
 import {
   Column,
   Entity,
   JoinColumn,
   ManyToMany,
   PrimaryGeneratedColumn,
-} from 'typeorm';
+} from 'typeorm'
 
 @Entity()
 export class Role {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: number
 
   @Column()
-  name: string;
+  name: string
   @Column()
-  permission: string;
+  permission: string
 
   @ManyToMany(() => User, (user) => user.role)
   @JoinColumn()
-  users: User[];
+  users: User[]
 }

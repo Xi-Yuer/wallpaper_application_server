@@ -1,10 +1,10 @@
-import { Module } from '@nestjs/common';
-import { APP_FILTER } from '@nestjs/core';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConnectionParams } from './connection/mysql.connection';
-import { HttpExceptionFilter } from './filter/global.error.filter';
-import { UsersModule } from './modules/users/users.module';
-import { AuthModule } from './modules/auth/auth.module';
+import { Module } from '@nestjs/common'
+import { APP_FILTER } from '@nestjs/core'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { ConnectionParams } from './connection/mysql.connection'
+import { HttpExceptionFilter } from './filter/global.error.filter'
+import { UsersModule } from './modules/users/users.module'
+import { AuthModule } from './modules/auth/auth.module'
 
 @Module({
   imports: [

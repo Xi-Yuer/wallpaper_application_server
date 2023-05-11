@@ -11,19 +11,16 @@ import {
   UseGuards,
   UploadedFile,
   UseInterceptors,
-} from '@nestjs/common';
+} from '@nestjs/common'
 
-import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { QueryUser } from './dto/query-user.dto';
-import { JwtAuthGuard } from 'src/guard/jwt.guard';
-import { isAuthGuard } from 'src/guard/isAuth.guard';
-import { IsAdmin } from 'src/guard/isAdmin.guard';
-import { FileInterceptor } from '@nestjs/platform-express';
-import multer = require('multer');
-import path = require('path');
-import { UploadPath } from 'src/config/oss.config';
+import { UsersService } from './users.service'
+import { CreateUserDto } from './dto/create-user.dto'
+import { UpdateUserDto } from './dto/update-user.dto'
+import { QueryUser } from './dto/query-user.dto'
+import { JwtAuthGuard } from 'src/guard/jwt.guard'
+import { isAuthGuard } from 'src/guard/isAuth.guard'
+import { IsAdmin } from 'src/guard/isAdmin.guard'
+import { FileUploadInterceptorFactory } from 'src/interceptor/file.interceptor'
 
 @Controller('users')
 export class UsersController {
@@ -31,18 +28,18 @@ export class UsersController {
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+    return this.usersService.create(createUserDto)
   }
 
   @Get()
   @UseGuards(JwtAuthGuard, IsAdmin)
   findAll(@Query() query: QueryUser) {
-    return this.usersService.findAll(query);
+    return this.usersService.findAll(query)
   }
 
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.findOne(id);
+    return this.usersService.findOne(id)
   }
 
   // 第一个守卫是判断当前用户是否携带 token 第二个守卫是拿到用户 id 与 修改的 id 进行判断是否一致，不一致则无法修改
@@ -52,33 +49,22 @@ export class UsersController {
     @Param('id', ParseIntPipe) id: number,
     @Body() updateUserDto: UpdateUserDto,
   ) {
-    return this.usersService.update(id, updateUserDto);
+    return this.usersService.update(id, updateUserDto)
   }
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard, IsAdmin)
   remove(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.remove(id);
+    return this.usersService.remove(id)
   }
 
   @Post('avatar/:id')
   @UseGuards(JwtAuthGuard, isAuthGuard)
-  @UseInterceptors(
-    FileInterceptor('file', {
-      storage: multer.diskStorage({
-        destination: (req, file, cb) => {
-          cb(null, path.join(__dirname, UploadPath));
-        },
-        filename: (req, file, cb) => {
-          cb(null, file.originalname);
-        },
-      }),
-    }),
-  )
+  @UseInterceptors(FileUploadInterceptorFactory())
   async updateAvatar(
     @UploadedFile() file: Express.Multer.File,
     @Param('id') id: number,
   ) {
-    return await this.usersService.updateUserAvatar(file, id);
+    return await this.usersService.updateUserAvatar(file, id)
   }
 }
