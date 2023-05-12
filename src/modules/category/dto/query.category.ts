@@ -6,7 +6,7 @@ export class QueryCategoryDTO {
 
   @IsOptional()
   limit: number
-  
+
   @IsOptional()
   page: number
 }
