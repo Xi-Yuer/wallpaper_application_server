@@ -5,6 +5,8 @@ import { ConnectionParams } from './connection/mysql.connection'
 import { HttpExceptionFilter } from './filter/global.error.filter'
 import { UsersModule } from './modules/users/users.module'
 import { AuthModule } from './modules/auth/auth.module'
+import { CategoryModule } from './modules/category/category.module'
+import { TagModule } from './modules/tags/tag.module'
 
 @Module({
   imports: [
@@ -13,14 +15,16 @@ import { AuthModule } from './modules/auth/auth.module'
     }),
     AuthModule,
     UsersModule,
+    CategoryModule,
+    TagModule,
   ],
   controllers: [],
   providers: [
     // 全局异常拦截器
-    {
-      provide: APP_FILTER,
-      useClass: HttpExceptionFilter,
-    },
+    // {
+    //   provide: APP_FILTER,
+    //   useClass: HttpExceptionFilter,
+    // },
   ],
 })
 export class AppModule {}

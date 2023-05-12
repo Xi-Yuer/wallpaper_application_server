@@ -87,10 +87,14 @@ export class UsersService {
   }
 
   async remove(id: number) {
-    const hasExist = await this.findOne(id)
-    if (!hasExist) {
+    const user = await this.findOne(id)
+    if (!user) {
       throw new NotFoundException('用户不存在')
     }
+    const { avatar } = user
+    // 删除用户头像
+    const path = avatar.split(OSS_Config.url)[1]
+    this.uploadService.delete(path)
     const result = await this.userRepository.delete(id)
     return result
   }
@@ -98,7 +102,7 @@ export class UsersService {
   async updateUserAvatar(file: Express.Multer.File, id: number) {
     const user = await this.findOne(id)
     if (!user) {
-      throw NotFoundException
+      throw new NotFoundException('更新失败')
     }
     const { avatar } = user
     const path = avatar.split(OSS_Config.url)[1]

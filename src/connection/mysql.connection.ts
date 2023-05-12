@@ -1,6 +1,8 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm'
 import { DB_Config } from 'src/config/db.config'
+import { Category } from 'src/modules/category/entities/category.entity'
 import { Role } from 'src/modules/roles/entities/role.entity'
+import { Tag } from 'src/modules/tags/entities/tag.entity'
 import { User } from 'src/modules/users/entities/user.entity'
 
 export const ConnectionParams: (
@@ -12,7 +14,7 @@ export const ConnectionParams: (
   username: DB_Config.username,
   password: DB_Config.password,
   database: DB_Config.database,
-  entities: [User, Role],
+  entities: [User, Role, Category, Tag],
   synchronize: true,
   logging: ['error'],
 })
