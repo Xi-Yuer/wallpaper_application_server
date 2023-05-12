@@ -8,6 +8,8 @@ import { AuthModule } from './modules/auth/auth.module'
 import { CategoryModule } from './modules/category/category.module'
 import { TagModule } from './modules/tags/tag.module'
 import { PicturesModule } from './modules/pictures/pictures.module'
+import { SearchModule } from './modules/search/search.module'
+import { FavorModule } from './modules/favor/favor.module'
 
 @Module({
   imports: [
@@ -19,6 +21,8 @@ import { PicturesModule } from './modules/pictures/pictures.module'
     CategoryModule,
     TagModule,
     PicturesModule,
+    SearchModule,
+    FavorModule,
   ],
   controllers: [],
   providers: [
