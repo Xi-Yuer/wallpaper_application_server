@@ -4,12 +4,14 @@ import { Response } from 'express'
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
-  catch(exception: HttpException, host: ArgumentsHost) {
+  catch(exception: any, host: ArgumentsHost) {
     const ctx = host.switchToHttp()
     const response = ctx.getResponse<Response>()
     const status = exception.getStatus()
-    const message = exception.message
-
+    let message = exception.message
+    if (exception.response.message) {
+      message = exception.response.message.join('')
+    }
     response.status(status).json({
       statusCode: status,
       message: message,

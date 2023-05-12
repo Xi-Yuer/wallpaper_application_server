@@ -43,6 +43,9 @@ export class TagService {
       },
       take: limit,
       skip: (page - 1) * limit,
+      relations: {
+        category: true,
+      },
     })
   }
 

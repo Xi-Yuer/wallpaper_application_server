@@ -1,22 +1,26 @@
 import { Type } from 'class-transformer'
 import { IsNumber, IsOptional, Min } from 'class-validator'
 
-export class QueryTagDTO {
+export class QueryPictureDTO {
   @IsOptional()
-  tagName?: string
-
-  @IsOptional()
-  @Type(() => Number)
   @IsNumber()
-  categoryId?: number
+  @Type(() => Number)
+  category: number
 
   @IsOptional()
+  @IsNumber()
   @Type(() => Number)
-  @Min(1)
-  limit?: number
+  tag: number
 
   @IsOptional()
+  @IsNumber()
   @Type(() => Number)
   @Min(1)
-  page?: number
+  limit: number
+
+  @IsOptional()
+  @IsNumber()
+  @Type(() => Number)
+  @Min(1)
+  page: number
 }

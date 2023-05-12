@@ -7,6 +7,7 @@ import { UsersModule } from './modules/users/users.module'
 import { AuthModule } from './modules/auth/auth.module'
 import { CategoryModule } from './modules/category/category.module'
 import { TagModule } from './modules/tags/tag.module'
+import { PicturesModule } from './modules/pictures/pictures.module'
 
 @Module({
   imports: [
@@ -17,14 +18,15 @@ import { TagModule } from './modules/tags/tag.module'
     UsersModule,
     CategoryModule,
     TagModule,
+    PicturesModule,
   ],
   controllers: [],
   providers: [
     // 全局异常拦截器
-    // {
-    //   provide: APP_FILTER,
-    //   useClass: HttpExceptionFilter,
-    // },
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
+    },
   ],
 })
 export class AppModule {}

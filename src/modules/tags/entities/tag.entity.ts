@@ -1,5 +1,11 @@
 import { Category } from 'src/modules/category/entities/category.entity'
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm'
 
 @Entity()
 export class Tag {
@@ -14,5 +20,6 @@ export class Tag {
 
   // 多个 tag 对应一个分类
   @ManyToOne(() => Category, (category) => category.tags)
+  @JoinColumn()
   category: Category
 }

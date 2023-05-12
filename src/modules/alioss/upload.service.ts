@@ -6,6 +6,12 @@ import { OssService } from './alioss.service'
 @Injectable()
 export class UploadsService {
   constructor(private readonly ossService: OssService) {}
+  /**
+   *
+   * @param file 文件
+   * @param path 删除原来的文件
+   * @returns 文件路径地址
+   */
   async upload(file: Express.Multer.File, path?: string) {
     try {
       const fileName =

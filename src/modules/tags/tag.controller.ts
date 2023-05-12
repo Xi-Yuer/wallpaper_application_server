@@ -23,7 +23,6 @@ export class TagController {
   constructor(private readonly tagService: TagService) {}
 
   @Post()
-  @Post()
   @UseGuards(JwtAuthGuard, IsAdmin)
   @UseInterceptors(FileUploadInterceptorFactory())
   create(
