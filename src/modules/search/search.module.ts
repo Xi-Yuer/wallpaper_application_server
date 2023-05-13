@@ -8,5 +8,6 @@ import { Picture } from '../pictures/entities/picture.entity'
   imports: [TypeOrmModule.forFeature([Picture])],
   providers: [SearchService],
   controllers: [SearchController],
+  exports: [SearchService],
 })
 export class SearchModule {}

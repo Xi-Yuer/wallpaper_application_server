@@ -6,6 +6,7 @@ import { Repository } from 'typeorm'
 import { Album } from '../album/entities/album.entity'
 import { UploadsService } from '../alioss/upload.service'
 import { Category } from '../category/entities/category.entity'
+import { SearchService } from '../search/search.service'
 import { Tag } from '../tags/entities/tag.entity'
 import { CreatePictureDto } from './dto/create-picture.dto'
 import { QueryPictureDTO } from './dto/query-picture.dto'
@@ -23,6 +24,7 @@ export class PicturesService {
     private readonly tagRepository: Repository<Tag>,
     @InjectRepository(Album)
     private readonly albumRepository: Repository<Album>,
+    private readonly searchService: SearchService,
   ) {}
 
   // TODO:标题、描述、分类ID、标签ID、创建者、图片地址
@@ -112,7 +114,23 @@ export class PicturesService {
         user: true,
       },
     })
-    return plainToInstance(Picture, result)
+    // 查找推荐壁纸
+    let recommend = []
+    if (result.length) {
+      const sameKey = result[0].categories.map((item) => item.name).join('')
+      if (sameKey) {
+        recommend = await this.searchService.find({
+          searchKey: sameKey,
+          limit: 20,
+          page: 1,
+        })
+      }
+    }
+    const detail = plainToInstance(Picture, result)
+    return {
+      ...detail[0],
+      recommend,
+    }
   }
 
   // 获取用户上传的所有图片

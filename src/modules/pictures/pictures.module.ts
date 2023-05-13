@@ -8,9 +8,11 @@ import { Picture } from './entities/picture.entity'
 import { Category } from '../category/entities/category.entity'
 import { Tag } from '../tags/entities/tag.entity'
 import { Album } from '../album/entities/album.entity'
+import { SearchModule } from '../search/search.module'
 
 @Module({
   imports: [
+    SearchModule,
     UploadModule,
     TypeOrmModule.forFeature([Picture, Category, Tag, Album]),
   ],

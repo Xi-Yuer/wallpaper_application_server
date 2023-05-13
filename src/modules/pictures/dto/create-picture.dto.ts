@@ -11,12 +11,15 @@ export class CreatePictureDto {
   description: string
 
   @IsNotEmpty()
+  @IsOptional()
   category: number
 
   @IsNotEmpty()
+  @IsOptional()
   tag: number
 
   @IsOptional()
   @IsString()
+  @IsOptional()
   album: number
 }
