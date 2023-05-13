@@ -8,11 +8,12 @@ import { Picture } from './entities/picture.entity'
 import { Category } from '../category/entities/category.entity'
 import { Tag } from '../tags/entities/tag.entity'
 import { User } from '../users/entities/user.entity'
+import { Album } from '../album/entities/album.entity'
 
 @Module({
   imports: [
     UploadModule,
-    TypeOrmModule.forFeature([User, Picture, Category, Tag]),
+    TypeOrmModule.forFeature([User, Picture, Category, Tag, Album]),
   ],
   controllers: [PicturesController],
   providers: [PicturesService, JwtService],

@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { plainToInstance } from 'class-transformer'
 import { parseNumber } from 'src/utils/parse.number'
 import { Repository } from 'typeorm'
+import { Album } from '../album/entities/album.entity'
 import { UploadsService } from '../alioss/upload.service'
 import { Category } from '../category/entities/category.entity'
 import { Tag } from '../tags/entities/tag.entity'
@@ -23,6 +24,8 @@ export class PicturesService {
     private readonly tagRepository: Repository<Tag>,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(Album)
+    private readonly albumRepository: Repository<Album>,
   ) {}
 
   // TODO:标题、描述、分类ID、标签ID、创建者、图片地址
@@ -31,7 +34,7 @@ export class PicturesService {
     file: Express.Multer.File,
     { id }: any,
   ) {
-    const { title, description, category, tag } = createPictureDto
+    const { title, description, category, tag, album } = createPictureDto
     try {
       const pic = await this.uploadService.upload(file)
       const createTag = await this.tagRepository.find({
@@ -44,6 +47,9 @@ export class PicturesService {
           id: category,
         },
       })
+      // const album = await this.albumRepository.find({
+      //   where: { id },
+      // })
       const picture = this.pictureRepository.create({
         title: title,
         description,
@@ -53,6 +59,9 @@ export class PicturesService {
         categories: createCategory,
         user: {
           id,
+        },
+        album: {
+          id: album,
         },
       })
       const result = await this.pictureRepository.save(picture)
@@ -82,6 +91,7 @@ export class PicturesService {
         categories: true,
         tags: true,
         user: true,
+        album: true,
       },
       take,
       skip,

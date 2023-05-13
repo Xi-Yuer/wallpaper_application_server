@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, Length } from 'class-validator'
+import { IsNotEmpty, IsOptional, IsString, Length } from 'class-validator'
 
 export class CreatePictureDto {
   @IsOptional()
@@ -15,4 +15,8 @@ export class CreatePictureDto {
 
   @IsNotEmpty()
   tag: number
+
+  @IsOptional()
+  @IsString()
+  album: number
 }

@@ -9,6 +9,7 @@ import {
 import { Exclude } from 'class-transformer'
 import { Role } from 'src/modules/roles/entities/role.entity'
 import { Picture } from 'src/modules/pictures/entities/picture.entity'
+import { Album } from 'src/modules/album/entities/album.entity'
 
 @Entity()
 export class User {
@@ -31,4 +32,7 @@ export class User {
 
   @OneToMany(() => Picture, (picture) => picture.user)
   picture: Picture[]
+
+  @OneToMany(() => Album, (album) => album.user)
+  album: Album[]
 }

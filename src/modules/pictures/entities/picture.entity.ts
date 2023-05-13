@@ -1,3 +1,4 @@
+import { Album } from 'src/modules/album/entities/album.entity'
 import { Category } from 'src/modules/category/entities/category.entity'
 import { Tag } from 'src/modules/tags/entities/tag.entity'
 import { User } from 'src/modules/users/entities/user.entity'
@@ -44,6 +45,10 @@ export class Picture {
   @ManyToMany(() => Tag)
   @JoinTable()
   tags: Tag[]
+
+  @ManyToOne(() => Album, album => album.picture)
+  @JoinColumn()
+  album: Album
 
   @ManyToOne(() => User, (user) => user.picture)
   @JoinColumn({ name: 'userId' })
