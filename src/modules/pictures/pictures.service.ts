@@ -7,7 +7,6 @@ import { Album } from '../album/entities/album.entity'
 import { UploadsService } from '../alioss/upload.service'
 import { Category } from '../category/entities/category.entity'
 import { Tag } from '../tags/entities/tag.entity'
-import { User } from '../users/entities/user.entity'
 import { CreatePictureDto } from './dto/create-picture.dto'
 import { QueryPictureDTO } from './dto/query-picture.dto'
 import { Picture } from './entities/picture.entity'
@@ -22,8 +21,6 @@ export class PicturesService {
     private readonly categoryRepository: Repository<Category>,
     @InjectRepository(Tag)
     private readonly tagRepository: Repository<Tag>,
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
     @InjectRepository(Album)
     private readonly albumRepository: Repository<Album>,
   ) {}
@@ -34,7 +31,13 @@ export class PicturesService {
     file: Express.Multer.File,
     { id }: any,
   ) {
-    const { title, description, category, tag, album } = createPictureDto
+    const {
+      title,
+      description,
+      category,
+      tag,
+      album: albumID,
+    } = createPictureDto
     try {
       const pic = await this.uploadService.upload(file)
       const createTag = await this.tagRepository.find({
@@ -47,9 +50,9 @@ export class PicturesService {
           id: category,
         },
       })
-      // const album = await this.albumRepository.find({
-      //   where: { id },
-      // })
+      const album = await this.albumRepository.find({
+        where: { id: albumID },
+      })
       const picture = this.pictureRepository.create({
         title: title,
         description,
@@ -57,11 +60,9 @@ export class PicturesService {
         hot: 0,
         tags: createTag,
         categories: createCategory,
+        album: album,
         user: {
           id,
-        },
-        album: {
-          id: album,
         },
       })
       const result = await this.pictureRepository.save(picture)
@@ -90,8 +91,8 @@ export class PicturesService {
       relations: {
         categories: true,
         tags: true,
-        user: true,
         album: true,
+        user: true,
       },
       take,
       skip,

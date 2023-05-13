@@ -11,7 +11,7 @@ import { PicturesModule } from './modules/pictures/pictures.module'
 import { SearchModule } from './modules/search/search.module'
 import { FavorModule } from './modules/favor/favor.module'
 import { DownloadModule } from './modules/download/download.module'
-import { AlbumModule } from './modules/album/album.module';
+import { AlbumModule } from './modules/album/album.module'
 
 @Module({
   imports: [
