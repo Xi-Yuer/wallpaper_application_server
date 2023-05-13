@@ -1,19 +1,18 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { QueryFavor } from './dto/query-favor.dto'
-import { Favor } from './entities/favor.entity'
+import { QueryDownload } from './dto/query-download.dto'
+import { Download } from './entities/download.entity'
 
 @Injectable()
-export class FavorService {
+export class DownloadService {
   constructor(
-    @InjectRepository(Favor)
-    private readonly favorRepository: Repository<Favor>,
+    @InjectRepository(Download)
+    private readonly dowloadRepository: Repository<Download>,
   ) {}
-  // 加入收藏
   async create(picID: number, { id }: any) {
     try {
-      const hasFavor = await this.favorRepository.find({
+      const hasDownload = await this.dowloadRepository.find({
         where: {
           user: {
             id: id,
@@ -23,8 +22,9 @@ export class FavorService {
           },
         },
       })
-      if (hasFavor.length) return '切勿重复收藏'
-      const result = this.favorRepository.create({
+      // 用户之前下载过该资源
+      if (hasDownload.length) return '下载成功'
+      const result = this.dowloadRepository.create({
         pic: [
           {
             id: picID,
@@ -37,18 +37,18 @@ export class FavorService {
         ],
       })
 
-      const res = await this.favorRepository.save(result)
+      const res = await this.dowloadRepository.save(result)
       if (res) {
-        return '已加入收藏'
+        return '已下载'
       }
     } catch (error) {
       throw new NotFoundException('资源不存在')
     }
   }
 
-  async findAll({ id }: any, queryDto: QueryFavor) {
-    const { limit = 10, page = 1 } = queryDto
-    return await this.favorRepository.find({
+  async findAll({ id }: any, queryDownload: QueryDownload) {
+    const { limit = 10, page = 1 } = queryDownload
+    return await this.dowloadRepository.find({
       where: {
         user: {
           id,
@@ -62,9 +62,8 @@ export class FavorService {
     })
   }
 
-  // 移除收藏
   async remove(id: number, { id: userID }) {
-    const [result] = await this.favorRepository.find({
+    const [result] = await this.dowloadRepository.find({
       where: {
         user: {
           id: userID,
@@ -74,6 +73,6 @@ export class FavorService {
         },
       },
     })
-    return this.favorRepository.delete(result.id)
+    return this.dowloadRepository.delete(result.id)
   }
 }

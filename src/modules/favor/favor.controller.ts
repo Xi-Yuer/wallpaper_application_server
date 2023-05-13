@@ -7,9 +7,11 @@ import {
   UseGuards,
   Req,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common'
 import { FavorService } from './favor.service'
 import { JwtAuthGuard } from 'src/guard/jwt.guard'
+import { QueryFavor } from './dto/query-favor.dto'
 
 @Controller('favor')
 @UseGuards(JwtAuthGuard)
@@ -25,8 +27,8 @@ export class FavorController {
   }
 
   @Get()
-  findAll(@Req() { user }: any) {
-    return this.favorService.findAll(user)
+  findAll(@Req() { user }: any, @Query() query: QueryFavor) {
+    return this.favorService.findAll(user, query)
   }
 
   @Delete(':id')

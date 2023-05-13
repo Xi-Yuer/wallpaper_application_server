@@ -4,10 +4,9 @@ import { FavorController } from './favor.controller'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { Favor } from './entities/favor.entity'
 import { JwtService } from '@nestjs/jwt'
-import { Picture } from '../pictures/entities/picture.entity'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Favor, Picture])],
+  imports: [TypeOrmModule.forFeature([Favor])],
   controllers: [FavorController],
   providers: [FavorService, JwtService],
 })

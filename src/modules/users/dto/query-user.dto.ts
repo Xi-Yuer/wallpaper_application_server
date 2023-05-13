@@ -12,12 +12,12 @@ export class QueryUser {
 
   @IsOptional()
   @Type(() => Number)
-  @Min(0)
+  @Min(1)
   limit?: number = 10
 
   @IsOptional()
   @Type(() => Number)
-  @Min(0)
+  @Min(1)
   page?: number = 1
 
   @IsOptional()

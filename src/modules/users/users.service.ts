@@ -7,7 +7,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm'
 import { plainToInstance } from 'class-transformer'
 import * as argon2 from 'argon2'
-import { Repository } from 'typeorm'
+import { Like, Repository } from 'typeorm'
 import { Role } from '../roles/entities/role.entity'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
@@ -40,20 +40,18 @@ export class UsersService {
   }
 
   async findAll(query: QueryUser) {
-    const { id, username, role, limit = 10, page = 1 } = query
+    const { id, username = '', role, limit = 10, page = 1 } = query
     const users = await this.userRepository.find({
-      take: limit,
-      skip: (page - 1) * limit,
-      where: {
-        id,
-        username,
-        role: {
-          id: role,
-        },
-      },
+      where: [
+        { id },
+        { username: Like(`%${username}%`) },
+        { role: { id: role } },
+      ],
       relations: {
         role: true,
       },
+      take: limit,
+      skip: (page - 1) * limit,
     })
     return plainToInstance(User, users)
   }

@@ -10,6 +10,7 @@ import { TagModule } from './modules/tags/tag.module'
 import { PicturesModule } from './modules/pictures/pictures.module'
 import { SearchModule } from './modules/search/search.module'
 import { FavorModule } from './modules/favor/favor.module'
+import { DownloadModule } from './modules/download/download.module'
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { FavorModule } from './modules/favor/favor.module'
     PicturesModule,
     SearchModule,
     FavorModule,
+    DownloadModule,
   ],
   controllers: [],
   providers: [

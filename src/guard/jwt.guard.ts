@@ -22,7 +22,7 @@ export class JwtAuthGuard implements CanActivate {
         request.user = decoded
         return true
       } catch (err) {
-        throw new UnauthorizedException('Invalid token')
+        throw new UnauthorizedException('身份已过期，请先登录')
       }
     }
     throw new UnauthorizedException('暂无权限')
