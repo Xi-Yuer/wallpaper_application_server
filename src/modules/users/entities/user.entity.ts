@@ -7,6 +7,7 @@ import {
 } from 'typeorm'
 import { Exclude } from 'class-transformer'
 import { Role } from 'src/modules/roles/entities/role.entity'
+import { Picture } from 'src/modules/pictures/entities/picture.entity'
 
 @Entity()
 export class User {
@@ -26,4 +27,8 @@ export class User {
   @ManyToMany(() => Role, (role) => role.users)
   @JoinTable()
   role: Role[]
+
+  @ManyToMany(() => Picture, (picture) => picture.user)
+  @JoinTable()
+  picture: Picture[]
 }

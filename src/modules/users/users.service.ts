@@ -45,11 +45,11 @@ export class UsersService {
     const take = parseNumber(limit, 10)
     const skip = (parseNumber(page, 1) - 1) * take
     const users = await this.userRepository.find({
-      where: [
-        { id },
-        { username: Like(`%${username}%`) },
-        { role: { id: role } },
-      ],
+      where: {
+        id,
+        username: Like(`%${username}%`),
+        role: { id: role },
+      },
       relations: {
         role: true,
       },

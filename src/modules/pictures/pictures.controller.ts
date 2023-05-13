@@ -10,6 +10,7 @@ import {
   UseInterceptors,
   UploadedFile,
   Query,
+  ParseIntPipe,
 } from '@nestjs/common'
 import { PicturesService } from './pictures.service'
 import { CreatePictureDto } from './dto/create-picture.dto'
@@ -38,8 +39,8 @@ export class PicturesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.picturesService.findOne(+id)
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.picturesService.findOne(id)
   }
 
   @Delete(':id')

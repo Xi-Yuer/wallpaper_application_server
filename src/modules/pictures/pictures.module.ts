@@ -7,9 +7,13 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { Picture } from './entities/picture.entity'
 import { Category } from '../category/entities/category.entity'
 import { Tag } from '../tags/entities/tag.entity'
+import { User } from '../users/entities/user.entity'
 
 @Module({
-  imports: [UploadModule, TypeOrmModule.forFeature([Picture, Category, Tag])],
+  imports: [
+    UploadModule,
+    TypeOrmModule.forFeature([User, Picture, Category, Tag]),
+  ],
   controllers: [PicturesController],
   providers: [PicturesService, JwtService],
 })

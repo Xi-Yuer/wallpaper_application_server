@@ -1,10 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { plainToInstance } from 'class-transformer'
 import { parseNumber } from 'src/utils/parse.number'
 import { Repository } from 'typeorm'
 import { UploadsService } from '../alioss/upload.service'
 import { Category } from '../category/entities/category.entity'
 import { Tag } from '../tags/entities/tag.entity'
+import { User } from '../users/entities/user.entity'
 import { CreatePictureDto } from './dto/create-picture.dto'
 import { QueryPictureDTO } from './dto/query-picture.dto'
 import { Picture } from './entities/picture.entity'
@@ -19,6 +21,8 @@ export class PicturesService {
     private readonly categoryRepository: Repository<Category>,
     @InjectRepository(Tag)
     private readonly tagRepository: Repository<Tag>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {}
 
   // TODO:标题、描述、分类ID、标签ID、创建者、图片地址
@@ -43,11 +47,13 @@ export class PicturesService {
       const picture = this.pictureRepository.create({
         title: title,
         description,
-        createBY: id,
         pic,
         hot: 0,
         tags: createTag,
         categories: createCategory,
+        user: {
+          id,
+        },
       })
       const result = await this.pictureRepository.save(picture)
       if (result) {
@@ -62,7 +68,7 @@ export class PicturesService {
     const { category, tag, limit = 10, page = 1 } = queryPictureDTO
     const take = parseNumber(limit, 10)
     const skip = (parseNumber(page, 1) - 1) * take
-    return await this.pictureRepository.find({
+    const result = await this.pictureRepository.find({
       where: {
         tags: {
           id: tag,
@@ -74,14 +80,26 @@ export class PicturesService {
       relations: {
         categories: true,
         tags: true,
+        user: true,
       },
       take,
       skip,
     })
+    return plainToInstance(Picture, result)
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} picture`
+  async findOne(id: number) {
+    const result = await this.pictureRepository.find({
+      where: {
+        id,
+      },
+      relations: {
+        categories: true,
+        tags: true,
+        user: true,
+      },
+    })
+    return plainToInstance(Picture, result)
   }
 
   remove(id: number) {

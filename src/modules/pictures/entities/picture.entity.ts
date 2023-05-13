@@ -1,5 +1,6 @@
 import { Category } from 'src/modules/category/entities/category.entity'
 import { Tag } from 'src/modules/tags/entities/tag.entity'
+import { User } from 'src/modules/users/entities/user.entity'
 import {
   BeforeInsert,
   Column,
@@ -25,9 +26,6 @@ export class Picture {
   pic: string
 
   @Column()
-  createBY: string
-
-  @Column()
   hot: number
 
   @CreateDateColumn()
@@ -44,4 +42,8 @@ export class Picture {
   @ManyToMany(() => Tag)
   @JoinTable()
   tags: Tag[]
+
+  @ManyToMany(() => User)
+  @JoinTable()
+  user: User
 }
