@@ -6,8 +6,10 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm'
 
@@ -43,7 +45,7 @@ export class Picture {
   @JoinTable()
   tags: Tag[]
 
-  @ManyToMany(() => User)
-  @JoinTable()
+  @ManyToOne(() => User, (user) => user.picture)
+  @JoinColumn({ name: 'userId' })
   user: User
 }

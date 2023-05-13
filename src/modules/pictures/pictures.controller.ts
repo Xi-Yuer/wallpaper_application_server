@@ -17,6 +17,7 @@ import { CreatePictureDto } from './dto/create-picture.dto'
 import { JwtAuthGuard } from 'src/guard/jwt.guard'
 import { FileUploadInterceptorFactory } from 'src/interceptor/file.interceptor'
 import { QueryPictureDTO } from './dto/query-picture.dto'
+import { isAuthGuard } from 'src/guard/isAuth.guard'
 
 @Controller('pictures')
 export class PicturesController {
@@ -43,8 +44,15 @@ export class PicturesController {
     return this.picturesService.findOne(id)
   }
 
+  // 获取用户上传的图片资源
+  @Get('user/:id')
+  findUserPictureByID(@Param('id', ParseIntPipe) id: number) {
+    return this.picturesService.findUserPictureByID(id)
+  }
+
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.picturesService.remove(+id)
+  @UseGuards(JwtAuthGuard, isAuthGuard)
+  remove(@Param('id', ParseIntPipe) id: number, @Req() { user }: any) {
+    return this.picturesService.remove(id, user)
   }
 }

@@ -3,6 +3,7 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm'
 import { Exclude } from 'class-transformer'
@@ -28,7 +29,6 @@ export class User {
   @JoinTable()
   role: Role[]
 
-  @ManyToMany(() => Picture, (picture) => picture.user)
-  @JoinTable()
+  @OneToMany(() => Picture, (picture) => picture.user)
   picture: Picture[]
 }

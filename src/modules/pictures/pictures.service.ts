@@ -64,6 +64,7 @@ export class PicturesService {
     }
   }
 
+  // 需要传入对应的 categoryID 或者 tagID
   async findAll(queryPictureDTO: QueryPictureDTO) {
     const { category, tag, limit = 10, page = 1 } = queryPictureDTO
     const take = parseNumber(limit, 10)
@@ -88,6 +89,7 @@ export class PicturesService {
     return plainToInstance(Picture, result)
   }
 
+  // 获取单张图片资源详细信息
   async findOne(id: number) {
     const result = await this.pictureRepository.find({
       where: {
@@ -102,7 +104,28 @@ export class PicturesService {
     return plainToInstance(Picture, result)
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} picture`
+  // 获取用户上传的所有图片
+
+  async findUserPictureByID(id: number) {
+    const result = await this.pictureRepository.find({
+      where: {
+        user: {
+          id,
+        },
+      },
+    })
+    return plainToInstance(Picture, result)
+  }
+
+  async remove(id: number, { id: userId }: any) {
+    const result = await this.pictureRepository.find({
+      where: {
+        id,
+        user: {
+          id: userId,
+        },
+      },
+    })
+    return await this.pictureRepository.delete(result[0].id)
   }
 }
