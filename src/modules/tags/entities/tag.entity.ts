@@ -1,8 +1,11 @@
+import { Banner } from 'src/modules/banner/entities/banner.entity'
 import { Category } from 'src/modules/category/entities/category.entity'
 import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm'
@@ -22,4 +25,8 @@ export class Tag {
   @ManyToOne(() => Category, (category) => category.tags)
   @JoinColumn()
   category: Category
+
+  @ManyToMany(() => Banner)
+  @JoinTable()
+  banner: Banner[]
 }

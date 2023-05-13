@@ -12,6 +12,7 @@ import { SearchModule } from './modules/search/search.module'
 import { FavorModule } from './modules/favor/favor.module'
 import { DownloadModule } from './modules/download/download.module'
 import { AlbumModule } from './modules/album/album.module'
+import { BannerModule } from './modules/banner/banner.module'
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { AlbumModule } from './modules/album/album.module'
     FavorModule,
     DownloadModule,
     AlbumModule,
+    BannerModule,
   ],
   controllers: [],
   providers: [

@@ -1,3 +1,4 @@
+import { Banner } from 'src/modules/banner/entities/banner.entity'
 import { Picture } from 'src/modules/pictures/entities/picture.entity'
 import { User } from 'src/modules/users/entities/user.entity'
 import {
@@ -39,4 +40,8 @@ export class Album {
   @ManyToOne(() => User, (user) => user.album)
   @JoinTable()
   user: User
+
+  @ManyToMany(() => Banner)
+  @JoinTable()
+  banner: Banner[]
 }
