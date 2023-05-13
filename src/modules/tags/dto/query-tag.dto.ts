@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer'
-import { IsNumber, IsOptional, Min } from 'class-validator'
+import { IsNumber, IsOptional } from 'class-validator'
 
 export class QueryTagDTO {
   @IsOptional()
@@ -11,12 +11,8 @@ export class QueryTagDTO {
   categoryId?: number
 
   @IsOptional()
-  @Type(() => Number)
-  @Min(1)
   limit?: number
 
   @IsOptional()
-  @Type(() => Number)
-  @Min(1)
   page?: number
 }

@@ -1,5 +1,4 @@
-import { Type } from 'class-transformer'
-import { IsOptional, IsString, Min } from 'class-validator'
+import { IsOptional, IsString } from 'class-validator'
 
 export class QueryUser {
   @IsString()
@@ -11,13 +10,9 @@ export class QueryUser {
   username: string
 
   @IsOptional()
-  @Type(() => Number)
-  @Min(1)
   limit?: number = 10
 
   @IsOptional()
-  @Type(() => Number)
-  @Min(1)
   page?: number = 1
 
   @IsOptional()

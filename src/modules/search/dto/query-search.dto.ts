@@ -1,18 +1,13 @@
-import { Type } from 'class-transformer'
-import { IsNotEmpty, IsNumber, IsString, Min } from 'class-validator'
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator'
 
 export class QuerySearchDTO {
   @IsString()
   @IsNotEmpty()
   searchKey: string
 
-  @IsNumber()
-  @Type(() => Number)
-  @Min(1)
+  @IsOptional()
   limit: number
 
-  @IsNumber()
-  @Type(() => Number)
-  @Min(1)
+  @IsOptional()
   page: number
 }

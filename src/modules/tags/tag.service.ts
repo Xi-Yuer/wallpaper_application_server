@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { OSS_Config } from 'src/config/oss.config'
+import { parseNumber } from 'src/utils/parse.number'
 import { Like, Repository } from 'typeorm'
 import { UploadsService } from '../alioss/upload.service'
 import { CategoryService } from '../category/category.service'
@@ -34,6 +35,8 @@ export class TagService {
 
   async findAll(queryTagDto: QueryTagDTO) {
     const { limit = 10, page = 1, tagName = '', categoryId } = queryTagDto
+    const take = parseNumber(limit, 10)
+    const skip = (parseNumber(page, 1) - 1) * take
     return await this.tagRepository.find({
       where: {
         tagName: Like(`%${tagName}%`),
@@ -41,8 +44,8 @@ export class TagService {
           id: categoryId,
         },
       },
-      take: limit,
-      skip: (page - 1) * limit,
+      take,
+      skip,
       relations: {
         category: true,
       },

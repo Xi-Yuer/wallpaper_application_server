@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { parseNumber } from 'src/utils/parse.number'
 import { Repository } from 'typeorm'
 import { QueryFavor } from './dto/query-favor.dto'
 import { Favor } from './entities/favor.entity'
@@ -48,6 +49,8 @@ export class FavorService {
 
   async findAll({ id }: any, queryDto: QueryFavor) {
     const { limit = 10, page = 1 } = queryDto
+    const take = parseNumber(limit, 10)
+    const skip = (parseNumber(page, 1) - 1) * take
     return await this.favorRepository.find({
       where: {
         user: {
@@ -57,8 +60,8 @@ export class FavorService {
       relations: {
         pic: true,
       },
-      take: limit,
-      skip: (page - 1) * limit,
+      take,
+      skip,
     })
   }
 

@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { OSS_Config } from 'src/config/oss.config'
+import { parseNumber } from 'src/utils/parse.number'
 import { Like, Repository } from 'typeorm'
 import { UploadsService } from '../alioss/upload.service'
 import { CreateCategoryDTO } from './dto/create.category'
@@ -22,6 +23,8 @@ export class CategoryService {
 
   async find(queryCategoryDTO: QueryCategoryDTO) {
     const { name = '', limit = 10, page = 1 } = queryCategoryDTO
+    const take = parseNumber(limit, 10)
+    const skip = (parseNumber(page, 1) - 1) * take
     return await this.categoryRepository.find({
       where: {
         name: Like(`%${name}%`),
@@ -29,8 +32,8 @@ export class CategoryService {
       relations: {
         tags: true,
       },
-      take: limit,
-      skip: (page - 1) * limit,
+      take,
+      skip,
     })
   }
 

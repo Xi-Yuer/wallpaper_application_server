@@ -16,6 +16,7 @@ import { QueryUser } from './dto/query-user.dto'
 import { RoleEnum } from 'src/enum/role.enum'
 import { UploadsService } from '../alioss/upload.service'
 import { OSS_Config } from 'src/config/oss.config'
+import { parseNumber } from 'src/utils/parse.number'
 
 @Injectable()
 export class UsersService {
@@ -41,6 +42,8 @@ export class UsersService {
 
   async findAll(query: QueryUser) {
     const { id, username = '', role, limit = 10, page = 1 } = query
+    const take = parseNumber(limit, 10)
+    const skip = (parseNumber(page, 1) - 1) * take
     const users = await this.userRepository.find({
       where: [
         { id },
@@ -50,8 +53,8 @@ export class UsersService {
       relations: {
         role: true,
       },
-      take: limit,
-      skip: (page - 1) * limit,
+      take,
+      skip,
     })
     return plainToInstance(User, users)
   }

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { parseNumber } from 'src/utils/parse.number'
 import { Like, Repository } from 'typeorm'
 import { Picture } from '../pictures/entities/picture.entity'
 import { QuerySearchDTO } from './dto/query-search.dto'
@@ -12,6 +13,8 @@ export class SearchService {
   ) {}
   async find(querySearchDTO: QuerySearchDTO) {
     const { searchKey, limit = 10, page = 1 } = querySearchDTO
+    const take = parseNumber(limit, 10)
+    const skip = (parseNumber(page, 1) - 1) * take
     return await this.pictureRespository.find({
       where: [
         { title: Like(`%${searchKey}%`) },
@@ -31,8 +34,8 @@ export class SearchService {
         categories: true,
         tags: true,
       },
-      take: limit,
-      skip: (page - 1) * limit,
+      take,
+      skip,
     })
   }
 }

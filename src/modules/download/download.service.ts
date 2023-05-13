@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { parseNumber } from 'src/utils/parse.number'
 import { Repository } from 'typeorm'
 import { QueryDownload } from './dto/query-download.dto'
 import { Download } from './entities/download.entity'
@@ -48,6 +49,8 @@ export class DownloadService {
 
   async findAll({ id }: any, queryDownload: QueryDownload) {
     const { limit = 10, page = 1 } = queryDownload
+    const take = parseNumber(limit, 10)
+    const skip = (parseNumber(page, 1) - 1) * take
     return await this.dowloadRepository.find({
       where: {
         user: {
@@ -57,8 +60,8 @@ export class DownloadService {
       relations: {
         pic: true,
       },
-      take: limit,
-      skip: (page - 1) * limit,
+      take,
+      skip,
     })
   }
 

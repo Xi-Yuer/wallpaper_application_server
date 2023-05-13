@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { parseNumber } from 'src/utils/parse.number'
 import { Repository } from 'typeorm'
 import { UploadsService } from '../alioss/upload.service'
 import { Category } from '../category/entities/category.entity'
@@ -59,6 +60,8 @@ export class PicturesService {
 
   async findAll(queryPictureDTO: QueryPictureDTO) {
     const { category, tag, limit = 10, page = 1 } = queryPictureDTO
+    const take = parseNumber(limit, 10)
+    const skip = (parseNumber(page, 1) - 1) * take
     return await this.pictureRepository.find({
       where: {
         tags: {
@@ -72,8 +75,8 @@ export class PicturesService {
         categories: true,
         tags: true,
       },
-      take: limit,
-      skip: (page - 1) * limit,
+      take,
+      skip,
     })
   }
 
