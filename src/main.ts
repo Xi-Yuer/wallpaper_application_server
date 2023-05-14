@@ -3,7 +3,6 @@ import { NestFactory } from '@nestjs/core'
 import { NestExpressApplication } from '@nestjs/platform-express'
 import { AppModule } from './app.module'
 import { ResponseInterceptor } from './interceptor/global.response.interceptor'
-import { MkDirUploads } from './utils/create.dir'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule)
@@ -20,4 +19,3 @@ async function bootstrap() {
 }
 
 bootstrap()
-MkDirUploads()

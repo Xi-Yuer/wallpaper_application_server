@@ -5,7 +5,6 @@ import {
   NotFoundException,
 } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { OSS_Config } from 'src/config/oss.config'
 import { parseNumber } from 'src/utils/parse.number'
 import { Like, Repository } from 'typeorm'
 import { UploadsService } from '../alioss/upload.service'
@@ -58,7 +57,7 @@ export class CategoryService {
       if (!result) {
         throw new NotFoundException()
       }
-      this.uploadService.delete(result.pic.split(OSS_Config.url)[1])
+      this.uploadService.delete(result.pic)
       return await this.categoryRepository.delete(categoryID)
     } catch (error) {
       throw new HttpException('删除失败', HttpStatus.BAD_REQUEST)

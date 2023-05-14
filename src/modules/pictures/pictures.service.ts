@@ -78,7 +78,7 @@ export class PicturesService {
 
   // 需要传入对应的 categoryID 或者 tagID
   async findAll(queryPictureDTO: QueryPictureDTO) {
-    const { category, tag, limit = 10, page = 1 } = queryPictureDTO
+    const { category, tag, album, limit = 10, page = 1 } = queryPictureDTO
     const take = parseNumber(limit, 10)
     const skip = (parseNumber(page, 1) - 1) * take
     const result = await this.pictureRepository.find({
@@ -88,6 +88,9 @@ export class PicturesService {
         },
         categories: {
           id: category,
+        },
+        album: {
+          id: album,
         },
       },
       relations: {
@@ -155,6 +158,7 @@ export class PicturesService {
         },
       },
     })
+    this.uploadService.delete(result[0].pic)
     return await this.pictureRepository.delete(result[0].id)
   }
 }

@@ -94,8 +94,7 @@ export class UsersService {
     }
     const { avatar } = user
     // 删除用户头像
-    const path = avatar.split(OSS_Config.url)[1]
-    this.uploadService.delete(path)
+    this.uploadService.delete(avatar)
     const result = await this.userRepository.delete(id)
     return result
   }

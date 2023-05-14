@@ -13,6 +13,11 @@ export class QueryPictureDTO {
   tag: number
 
   @IsOptional()
+  @IsNumber()
+  @Type(() => Number)
+  album: number
+
+  @IsOptional()
   limit: number
 
   @IsOptional()

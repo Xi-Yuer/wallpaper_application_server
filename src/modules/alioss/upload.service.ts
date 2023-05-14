@@ -1,6 +1,6 @@
 import { HttpException, Injectable } from '@nestjs/common'
 import { unlinkSync } from 'fs'
-import { UploadPath } from 'src/config/oss.config'
+import { OSS_Config, UploadPath } from 'src/config/oss.config'
 import { OssService } from './alioss.service'
 
 @Injectable()
@@ -18,7 +18,9 @@ export class UploadsService {
         new Date().getTime() +
         Math.floor(Math.random() * 10000) +
         '_wallpaper_' +
-        file.originalname
+        file.size +
+        '.' +
+        file.originalname.split('.')[1]
       const ossUrl = await this.ossService.putOssFile(
         fileName,
         __dirname + UploadPath + file.originalname,
@@ -37,7 +39,7 @@ export class UploadsService {
 
   async delete(path: string) {
     try {
-      return await this.ossService.deleteFileByName(path)
+      return await this.ossService.deleteFileByName(path.split(OSS_Config.url)[1])
     } catch (error) {
       throw HttpException
     }
