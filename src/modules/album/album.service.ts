@@ -53,6 +53,7 @@ export class AlbumService {
   async remove(id: number) {
     const result = await this.albumRepository.findOne({ where: { id } })
     try {
+      this.uploadService.delete(result.pic)
       return await this.albumRepository.remove(result)
     } catch (error) {
       throw new NotFoundException('资源不存在')

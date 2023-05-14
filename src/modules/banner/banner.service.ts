@@ -45,6 +45,7 @@ export class BannerService {
 
   async remove(id: number) {
     const result = await this.bannerRepository.find({ where: { id } })
+    this.uploadService.delete(result[0].pic)
     return await this.bannerRepository.remove(result)
   }
 }
