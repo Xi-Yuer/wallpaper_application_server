@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { plainToInstance } from 'class-transformer'
 import { parseNumber } from 'src/utils/parse.number'
-import { Repository } from 'typeorm'
+import { In, Repository } from 'typeorm'
 import { Album } from '../album/entities/album.entity'
 import { UploadsService } from '../alioss/upload.service'
 import { Category } from '../category/entities/category.entity'
@@ -44,12 +44,12 @@ export class PicturesService {
       const pic = await this.uploadService.upload(file)
       const createTag = await this.tagRepository.find({
         where: {
-          id: tag,
+          id: In(JSON.parse(tag)),
         },
       })
       const createCategory = await this.categoryRepository.find({
         where: {
-          id: category,
+          id: In(JSON.parse(category)),
         },
       })
       const album = await this.albumRepository.find({

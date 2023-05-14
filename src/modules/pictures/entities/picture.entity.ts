@@ -46,8 +46,8 @@ export class Picture {
   @JoinTable()
   tags: Tag[]
 
-  @ManyToMany(() => Album, (album) => album.picture)
-  @JoinColumn()
+  @ManyToMany(() => Album)
+  @JoinTable()
   album: Album[]
 
   @ManyToOne(() => User, (user) => user.picture)

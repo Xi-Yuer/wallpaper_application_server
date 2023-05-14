@@ -9,6 +9,7 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm'
 
@@ -33,7 +34,7 @@ export class Album {
     this.createAt = new Date()
   }
 
-  @ManyToMany(() => Picture, (picture) => picture.album)
+  @OneToMany(() => Picture, (picture) => picture.album)
   @JoinTable()
   picture: Picture[]
 

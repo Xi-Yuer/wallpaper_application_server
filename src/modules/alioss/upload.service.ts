@@ -39,7 +39,9 @@ export class UploadsService {
 
   async delete(path: string) {
     try {
-      return await this.ossService.deleteFileByName(path.split(OSS_Config.url)[1])
+      return await this.ossService.deleteFileByName(
+        path.split(OSS_Config.url)[1],
+      )
     } catch (error) {
       throw HttpException
     }

@@ -12,11 +12,11 @@ export class CreatePictureDto {
 
   @IsNotEmpty()
   @IsOptional()
-  category: number
+  category: string
 
   @IsNotEmpty()
   @IsOptional()
-  tag: number
+  tag: string
 
   @IsOptional()
   @IsString()

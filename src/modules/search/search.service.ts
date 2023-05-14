@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { plainToInstance } from 'class-transformer'
 import { parseNumber } from 'src/utils/parse.number'
 import { Like, Repository } from 'typeorm'
 import { Picture } from '../pictures/entities/picture.entity'
@@ -15,7 +16,7 @@ export class SearchService {
     const { searchKey, limit = 10, page = 1 } = querySearchDTO
     const take = parseNumber(limit, 10)
     const skip = (parseNumber(page, 1) - 1) * take
-    return await this.pictureRespository.find({
+    const result = await this.pictureRespository.find({
       where: [
         { title: Like(`%${searchKey}%`) },
         { description: Like(`%${searchKey}%`) },
@@ -33,9 +34,11 @@ export class SearchService {
       relations: {
         categories: true,
         tags: true,
+        user: true,
       },
       take,
       skip,
     })
+    return plainToInstance(Picture, result)
   }
 }
