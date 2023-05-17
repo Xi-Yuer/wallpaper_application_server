@@ -10,12 +10,14 @@ import {
   UseGuards,
   Req,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common'
 import { isAuthGuard } from 'src/guard/isAuth.guard'
 import { JwtAuthGuard } from 'src/guard/jwt.guard'
 import { FileUploadInterceptorFactory } from 'src/interceptor/file.interceptor'
 import { AlbumService } from './album.service'
 import { CreateAlbumDto } from './dto/create-album.dto'
+import { QueryAlbum } from './dto/query-favor.dto'
 
 @Controller('album')
 export class AlbumController {
@@ -33,8 +35,8 @@ export class AlbumController {
   }
 
   @Get()
-  findAll() {
-    return this.albumService.findAll()
+  findAll(@Query() query: QueryAlbum) {
+    return this.albumService.findAll(query)
   }
 
   @Get(':id')

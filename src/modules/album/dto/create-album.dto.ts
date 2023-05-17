@@ -8,7 +8,7 @@ export class CreateAlbumDto {
 
   @IsString()
   @IsNotEmpty()
-  @Length(2, 50)
+  @Length(2, 150)
   description: string
 
   @Type(() => Object)

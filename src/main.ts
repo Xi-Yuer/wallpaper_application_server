@@ -1,5 +1,6 @@
 import { ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
+import * as cors from 'cors'
 import { NestExpressApplication } from '@nestjs/platform-express'
 import { AppModule } from './app.module'
 import { ResponseInterceptor } from './interceptor/global.response.interceptor'
@@ -13,6 +14,7 @@ async function bootstrap() {
       transform: true,
     }),
   )
+  app.use(cors())
   app.useGlobalInterceptors(new ResponseInterceptor())
   app.setGlobalPrefix('/api/v1')
   await app.listen(10086)

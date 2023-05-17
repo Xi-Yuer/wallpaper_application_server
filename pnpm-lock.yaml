@@ -24,6 +24,7 @@ specifiers:
   argon2: ^0.30.3
   class-transformer: ^0.5.1
   class-validator: ^0.14.0
+  cors: ^2.8.5
   eslint: ^8.0.1
   eslint-config-prettier: ^8.3.0
   eslint-plugin-prettier: ^4.0.0
@@ -58,6 +59,7 @@ dependencies:
   argon2: registry.npmmirror.com/argon2/0.30.3
   class-transformer: registry.npmmirror.com/class-transformer/0.5.1
   class-validator: registry.npmmirror.com/class-validator/0.14.0
+  cors: registry.npmmirror.com/cors/2.8.5
   multer: registry.npmmirror.com/multer/1.4.5-lts.1
   mysql2: registry.npmmirror.com/mysql2/3.3.0
   passport: registry.npmmirror.com/passport/0.6.0

@@ -5,6 +5,7 @@ import { Repository } from 'typeorm'
 import { UploadsService } from '../alioss/upload.service'
 import { Picture } from '../pictures/entities/picture.entity'
 import { CreateAlbumDto } from './dto/create-album.dto'
+import { QueryAlbum } from './dto/query-favor.dto'
 import { Album } from './entities/album.entity'
 
 @Injectable()
@@ -35,12 +36,16 @@ export class AlbumService {
     return plainToInstance(Picture, res)
   }
 
-  findAll() {
-    return this.albumRepository.find()
+  findAll(query: QueryAlbum) {
+    const { limit = 10, page = 1 } = query
+    return this.albumRepository.find({
+      take: limit,
+      skip: (page - 1) * limit,
+    })
   }
 
   async findOne(id: number) {
-    return await this.albumRepository.find({
+    return await this.albumRepository.findOne({
       where: {
         id,
       },
