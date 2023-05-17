@@ -4,6 +4,7 @@ import { plainToInstance } from 'class-transformer'
 import { Repository } from 'typeorm'
 import { UploadsService } from '../alioss/upload.service'
 import { Picture } from '../pictures/entities/picture.entity'
+import { PicturesService } from '../pictures/pictures.service'
 import { CreateAlbumDto } from './dto/create-album.dto'
 import { QueryAlbum } from './dto/query-favor.dto'
 import { Album } from './entities/album.entity'
@@ -13,6 +14,8 @@ export class AlbumService {
   constructor(
     @InjectRepository(Album)
     private readonly albumRepository: Repository<Album>,
+    @InjectRepository(Picture)
+    private readonly pictureRepository: Repository<Picture>,
     private readonly uploadService: UploadsService,
   ) {}
   // 新建专辑
@@ -45,14 +48,26 @@ export class AlbumService {
   }
 
   async findOne(id: number) {
-    return await this.albumRepository.findOne({
+    const albumPicture = await this.pictureRepository.find({
+      where: {
+        album: {
+          id,
+        },
+      },
+    })
+    const albumInfo = await this.albumRepository.findOne({
       where: {
         id,
       },
       relations: {
-        picture: true,
+        user: true,
       },
     })
+    const result = {
+      ...plainToInstance(Album, albumInfo),
+      pictures: albumPicture,
+    }
+    return result
   }
 
   async remove(id: number) {
