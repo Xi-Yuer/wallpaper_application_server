@@ -11,6 +11,7 @@ import {
   UseGuards,
   UploadedFile,
   UseInterceptors,
+  Put,
 } from '@nestjs/common'
 
 import { UsersService } from './users.service'
@@ -44,7 +45,7 @@ export class UsersController {
 
   // 第一个守卫是判断当前用户是否携带 token 第二个守卫是拿到用户 id 与 修改的 id 进行判断是否一致，不一致则无法修改
   @UseGuards(JwtAuthGuard, isAuthGuard)
-  @Patch(':id')
+  @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateUserDto: UpdateUserDto,
