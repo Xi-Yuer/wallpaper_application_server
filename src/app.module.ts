@@ -13,6 +13,7 @@ import { FavorModule } from './modules/favor/favor.module'
 import { DownloadModule } from './modules/download/download.module'
 import { AlbumModule } from './modules/album/album.module'
 import { BannerModule } from './modules/banner/banner.module'
+import { UploadModule } from './modules/upload/upload.module'
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { BannerModule } from './modules/banner/banner.module'
     DownloadModule,
     AlbumModule,
     BannerModule,
+    UploadModule,
   ],
   controllers: [],
   providers: [

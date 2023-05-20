@@ -8,6 +8,7 @@ import { Favor } from 'src/modules/favor/entities/favor.entity'
 import { Picture } from 'src/modules/pictures/entities/picture.entity'
 import { Role } from 'src/modules/roles/entities/role.entity'
 import { Tag } from 'src/modules/tags/entities/tag.entity'
+import { Upload } from 'src/modules/upload/entities/upload.entity'
 import { User } from 'src/modules/users/entities/user.entity'
 
 export const ConnectionParams: (
@@ -29,6 +30,7 @@ export const ConnectionParams: (
     Favor,
     Download,
     Banner,
+    Upload,
   ],
   synchronize: true,
   logging: ['error'],
