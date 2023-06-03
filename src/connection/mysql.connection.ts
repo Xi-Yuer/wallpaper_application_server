@@ -32,6 +32,6 @@ export const ConnectionParams: (
     Banner,
     Upload,
   ],
-  synchronize: true,
+  synchronize: false,
   logging: ['error'],
 })

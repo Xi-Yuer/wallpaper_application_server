@@ -51,6 +51,19 @@ export class TagService {
     })
   }
 
+  async findHotTag(queryTagDto: Partial<QueryTagDTO>) {
+    const { limit = 10, page = 1 } = queryTagDto
+    const take = parseNumber(limit, 10)
+    const skip = (parseNumber(page, 1) - 1) * take
+    const result = await this.tagRepository.find({
+      relations: {
+      },
+      take,
+      skip,
+    })
+    return result.filter((item) => item.pic.length > 5)
+  }
+
   async remove(id: number) {
     const result = await this.tagRepository.findOne({ where: { id } })
     if (!result) {

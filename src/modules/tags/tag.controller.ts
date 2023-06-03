@@ -37,6 +37,11 @@ export class TagController {
     return this.tagService.findAll(queryTagDta)
   }
 
+  @Get('hot')
+  findHot(@Query() queryTagDta: any){
+    return this.tagService.findHotTag(queryTagDta)
+  }
+
   @Delete(':id')
   @UseGuards(JwtAuthGuard, IsAdmin)
   remove(@Param('id', ParseIntPipe) id: number) {
